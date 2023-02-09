@@ -1,0 +1,99 @@
+package com.example.lifecycle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button bt_p,bt_n;
+    ImageView iv;
+    boolean flag;
+    int images[]={R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4 };
+    int i=0;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Context context=getApplicationContext();
+        CharSequence text="Application has started";
+        int duration= Toast.LENGTH_SHORT;
+        Toast toast=Toast.makeText(context,text,duration);
+        toast.show();
+
+        bt_p=(Button) findViewById(R.id.btn_previous);
+        bt_n=(Button) findViewById(R.id.btn_next);
+        iv=(ImageView) findViewById(R.id.img);
+        flag=true;
+
+        bt_p.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                i=(i-1)% images.length;
+                if(i<0)
+                    i+= images.length;
+                iv.setImageResource(images[i]);
+            }
+        });
+
+        bt_n.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                i=(i+1)% images.length;
+                iv.setImageResource(images[i]);
+            }
+        });
+
+        WebView myWebview= (WebView) findViewById(R.id.webview);
+        myWebview.loadUrl("https://amazon.com");
+        myWebview.getSettings().setJavaScriptEnabled(true);
+        myWebview.setWebViewClient(new WebViewClient());
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this,"activity started",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(this,"Actviity Stopped",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this,"Activity Destroyed",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this,"Activity paused", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"Activity Resumed",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, "Activity Restarted", Toast.LENGTH_SHORT).show();
+    }
+}
